@@ -11,16 +11,15 @@ public class Invoice {
     private Map<Product, Integer> products = new HashMap<>();
 
     public void addProduct(Product product) {
-        this.addProduct(product, 1);//product with quantity =1
+        this.addProduct(product, 1);
 
     }
 
     public void addProduct(Product product, Integer quantity) {
-        //if conditions will be implements to both ,,addProduct"
         if (quantity == -1 || quantity == 0) {
             throw new IllegalArgumentException("Quantity cannot be null or empty");
         }
-        this.products.put(product, quantity); //we use put, add is not at map
+        this.products.put(product, quantity);
 
     }
 
