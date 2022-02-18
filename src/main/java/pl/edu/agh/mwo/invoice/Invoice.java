@@ -25,8 +25,7 @@ public class Invoice {
 
     public BigDecimal getNetPrice() {
         BigDecimal sum = BigDecimal.ZERO;
-        //    for (Product product : this.products) {
-        //    }
+
         for (Product product : this.products.keySet()) {
             Integer quantity = this.products.get(product);
             BigDecimal quantityAsBigDecimal = BigDecimal.valueOf(quantity);
