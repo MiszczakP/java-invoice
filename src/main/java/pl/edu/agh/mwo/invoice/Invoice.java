@@ -6,7 +6,7 @@ import java.util.*;
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-    //private List<Product> products = new ArrayList<>();
+    // private List<Product> products = new ArrayList<>();
 
     private Map<Product, Integer> products = new HashMap<>();
 
