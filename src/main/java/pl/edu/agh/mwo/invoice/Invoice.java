@@ -6,17 +6,18 @@ import java.util.*;
 import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice {
-  //  private List<Product> products = new ArrayList<>();
+    //  private List<Product> products = new ArrayList<>();
 
     private Map<Product, Integer> products = new HashMap<>();
 
     public void addProduct(Product product) {
-        this.addProduct(product,1);//product with quantity =1
+        this.addProduct(product, 1);//product with quantity =1
 
     }
+
     public void addProduct(Product product, Integer quantity) {
         //if conditions will be implements to both ,,addProduct"
-        if(quantity == -1 || quantity == 0){
+        if (quantity == -1 || quantity == 0) {
             throw new IllegalArgumentException("Quantity cannot be null or empty");
         }
         this.products.put(product, quantity); //we use put, add is not at map
@@ -25,20 +26,39 @@ public class Invoice {
 
     public BigDecimal getNetPrice() {
         BigDecimal sum = BigDecimal.ZERO;
-    //    for (Product product : this.products) {
-    //    }
+        //    for (Product product : this.products) {
+        //    }
         for (Product product : this.products.keySet()) {
             Integer quantity = this.products.get(product);
-           sum=sum.add(product.getPrice().multiply(BigDecimal.valueOf(quantity)));
+            BigDecimal quantityAsBigDecimal = BigDecimal.valueOf(quantity);
+            BigDecimal priceOfThisItem = product.getPrice().multiply(quantityAsBigDecimal);
+            sum = sum.add(priceOfThisItem);
         }
         return sum;
     }
 
     public BigDecimal getTax() {
-        return BigDecimal.ZERO;
+        BigDecimal tax = BigDecimal.ZERO;
+
+        for (Product product : this.products.keySet()) {
+            BigDecimal taxPercentage = product.getTaxPercent();
+            BigDecimal priceTaxPercentage = product.getPrice().multiply(taxPercentage);
+            tax = tax.add(priceTaxPercentage);
+        }
+        return tax;
     }
 
     public BigDecimal getTotal() {
-        return BigDecimal.ZERO;
+        BigDecimal total = BigDecimal.ZERO;
+        for (Product product : this.products.keySet()) {
+            Integer quantity = this.products.get(product);
+            BigDecimal quantityAsBigDecimal = BigDecimal.valueOf(quantity);
+            BigDecimal priceOfThisItem = product.getPrice().multiply(quantityAsBigDecimal);
+            BigDecimal taxPercentage = product.getTaxPercent();
+            BigDecimal priceTaxPercentage = product.getPrice().multiply(taxPercentage);
+
+            total = total.add((priceOfThisItem).add(priceTaxPercentage.multiply(quantityAsBigDecimal)));
+        }
+        return total;
     }
 }
