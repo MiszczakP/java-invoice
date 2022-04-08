@@ -9,6 +9,8 @@ public class Invoice {
     // private List<Product> products = new ArrayList<>();
 
     private Map<Product, Integer> products = new HashMap<>();
+    private static int nextNumber = 0;
+    private final int number = ++nextNumber;
 
     public void addProduct(Product product) {
         this.addProduct(product, 1);
@@ -19,8 +21,11 @@ public class Invoice {
         if (quantity == -1 || quantity == 0) {
             throw new IllegalArgumentException("Quantity cannot be null or empty");
         }
-        this.products.put(product, quantity);
-
+        if (products.keySet().contains(product)) {
+            Integer initialQuantity = products.get(product);
+            this.products.put(product, initialQuantity + quantity);
+        } else
+                this.products.put(product, quantity);
     }
 
     public BigDecimal getNetPrice() {
@@ -59,4 +64,25 @@ public class Invoice {
         }
         return total;
     }
+    public int getNumber() {
+        return number;
+    }
+
+    public String getProductListAsString() {
+
+        String productListAsString = "Invoice number " + getNumber() + "\n" + "Name/Surname: \t\t" + "Quantity: \t"
+                + "Unit price:\n";
+        int counter = 0;
+
+        for (Product product : products.keySet()) {
+            productListAsString += product.getName() + "\t\t" + products.get(product) + "\t\t" + product.getPrice()
+                    + "\n";
+            counter++;
+        }
+
+        productListAsString += "\nNumber of items: " + counter;
+
+        return productListAsString;
+    }
+
 }
