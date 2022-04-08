@@ -13,7 +13,7 @@ public class Invoice {
     private final int number = ++nextNumber;
 
     public void addProduct(Product product) {
-        this.addProduct(product, 1);
+       addProduct(product, 1);
 
     }
 
@@ -23,9 +23,9 @@ public class Invoice {
         }
         if (products.keySet().contains(product)) {
             Integer initialQuantity = products.get(product);
-            this.products.put(product, initialQuantity + quantity);
+            products.put(product, initialQuantity + quantity);
         } else
-                this.products.put(product, quantity);
+            products.put(product, quantity);
     }
 
     public BigDecimal getNetPrice() {
